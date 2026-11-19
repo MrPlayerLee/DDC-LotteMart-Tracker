@@ -35,7 +35,9 @@ GitHub Actions 탭의 **LotteMart stock and price tracking → Run workflow**로
 
 ## 구현 및 주의
 
-2026년 3월 공개된 롯데마트 모바일 도와센터의 AJAX 엔드포인트 분석을 참고해 독립 구현했습니다. 공식·지원 API가 아니라 공개 웹사이트의 내부 조회 경로이므로 **현재 접근 가능성과 응답 형식이 보장되지 않습니다**. 에러가 지속되면 GitHub Actions의 실행 환경에서도 접속이 불가한지 확인해야 합니다.
+2026년 3월 공개된 롯데마트 모바일 도와센터의 AJAX 엔드포인트 분석을 참고해 독립 구현했습니다. 공식·지원 API가 아니라 공개 웹사이트의 내부 조회 경로이므로 **현재 접근 가능성과 응답 형식이 보장되지 않습니다**. 2026-11-19에 Work 클라우드에서 동두천점의 공식 가격과 재고를 확인했습니다. 같은 날 GitHub 기본 Ubuntu, macOS 15, Ubuntu ARM 러너에서는 매장 목록 HTTPS 연결이 시간 초과됐습니다. 정확한 차단 원인은 확인되지 않았습니다.
+
+공식 사이트에 연결 가능한 Linux 클라우드 러너를 저장소에 등록한 경우, Actions 저장소 변수 `LOTTEMART_RUNNER`에 해당 러너의 고유 라벨을 지정할 수 있습니다. 미설정 시 `ubuntu-latest`를 사용합니다.
 
 참고: https://github.com/hmmhmmhm/daiso-mcp/blob/main/docs/lottemart-mobile-scraping-replay-plan.md
 
