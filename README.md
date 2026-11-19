@@ -1,2 +1,44 @@
 # DDC-LotteMart-Tracker
-Korea Gyeongi-do Dongducheon-si Lotte mart price, stock, sale information tracker. Powered by ChatGPT.
+
+경기도 동두천 롯데마트의 상품 가격·재고를 공식 모바일 도와센터에서 **읽기 전용**으로 확인하는 프로젝트입니다.
+
+## 현재 상태
+
+- 기본 지점: 롯데마트 **동두천점** / 경기
+- 기본 검색어: 조니워커 (레드라벨·블랙라벨·그린라벨 집중 관찰)
+- GitHub Actions: 6시간 간격 + Actions 탭에서 수동 실행
+- 결과: data/status.json (최신 시도), data/latest.json (마지막 성공 조회)
+- **공식 사이트가 차단/타임아웃되면 조회 실패를 명시합니다.** 품절이나 세일 종료로 간주하지 않습니다.
+
+## 설정 및 실행
+
+watchlist.json에서 지점·검색어·관심 상품을 바꿀 수 있습니다.
+
+Python 3.11 이상에서:
+
+    python -m pip install -r requirements.txt
+    python tracker.py
+    python tracker.py --query '생수'
+    python -m unittest discover -s tests -v
+
+GitHub Actions 탭의 **LotteMart stock and price tracking → Run workflow**로 즉시 실행할 수 있습니다.
+
+## 결과 해석
+
+- status: ok / error. error이면 data/latest.json을 현재 재고로 취급하지 마세요.
+- stock_status: in_stock / out_of_stock / unknown.
+- discount_status: discounted / not_discounted / unknown.
+- 정상가가 공식 응답에 있는 경우에만 할인 여부를 판단합니다. 단순 가격 하락은 공식 할인 행사라고 단정하지 않습니다.
+- 가격 단위는 원(KRW), 용량은 인식될 때 mL로 정규화합니다.
+- 특정 제품이 검색되지 않아도 품절이라는 뜻은 아닙니다.
+- 실재고는 구매 시점에 달라질 수 있습니다.
+
+## 구현 및 주의
+
+2026년 3월 공개된 롯데마트 모바일 도와센터의 AJAX 엔드포인트 분석을 참고해 독립 구현했습니다. 공식·지원 API가 아니라 공개 웹사이트의 내부 조회 경로이므로 **현재 접근 가능성과 응답 형식이 보장되지 않습니다**. 에러가 지속되면 GitHub Actions의 실행 환경에서도 접속이 불가한지 확인해야 합니다.
+
+참고: https://github.com/hmmhmmhm/daiso-mcp/blob/main/docs/lottemart-mobile-scraping-replay-plan.md
+
+외부 서비스 제한을 회피하는 직접 IP 우회, 로그인 쿠키 수집, 대량 조회는 사용하지 않습니다. 6시간 간격의 소량 조회만 수행합니다.
+
+GitHub Actions 쓰기 권한이 제한된 경우 저장소 설정에서 Workflow permissions를 확인하세요. 비밀번호나 토큰은 저장소 코드에 넣지 마세요.
