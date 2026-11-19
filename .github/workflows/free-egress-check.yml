@@ -20,11 +20,13 @@ jobs:
           python -u - <<'PY'
           import json,uuid,requests,tracker
           worker="import { connect } from 'cloudflare:sockets';\nexport default {async fetch(req){\n const h=\"company.lottemart.com\";\n const d={colo:req.cf?.colo};\n try {\n   const dns=await fetch(\"https://cloudflare-dns.com/dns-query?name=\"+h+\"&type=A\",{headers:{accept:\"application/dns-json\"}});\n   d.dns=(await dns.json()).Answer?.map(x=>x.data);\n } catch {d.dns=\"unavailable\";}\n const url=new URL(\"https://\"+h+\"/mobiledowa/inc/asp/search_product_list.asp\");\n url.search=new URLSearchParams({p_market:\"2435\",p_schWord:\"조니워커 레드\",page:\"1\"}).toString();\n try {\n   const res=await fetch(url,{redirect:\"manual\",signal:AbortSignal.timeout(14000),headers:{\"Accept-Language\":\"ko-KR\"}});\n   d.http=res.status;\n   if(res.ok)d.html=await res.text();\n } catch(e){d.fetch_error=e.name+\" \"+e.message;}\n if(!d.html){for(const mode of [\"off\",\"on\"]){let socket;\n   try{socket=connect({hostname:h,port:443},{secureTransport:mode});\n   await Promise.race([socket.opened,new Promise((_,r)=>setTimeout(()=>r(new Error(\"6s timeout\")),6000))]);d[mode===\"on\"?\"tls\":\"tcp\"]=\"opened\";\n   }catch(e){d[mode===\"on\"?\"tls\":\"tcp\"]=e.message;}finally{if(socket)socket.close().catch(()=>{});}\n }}\n return Response.json(d);\n}};"
-          files={"index.js":("index.js",worker,"application/javascript+module"),"metadata":("blob",json.dumps({"main_module":"index.js","compatibility_date":"2026-01-01"}),"application/json")}
+          files={"index.js":("index.js",worker,"application/javascript+module"),"metadata":("blob",json.dumps({"main_module":"index.js","compatibility_date":"2024-11-01"}),"application/json")}
           r=requests.post("https://workers.cloudflare.com/playground/api/worker",files=files,timeout=25)
           print("Playground setup HTTP",r.status_code,flush=True)
           r.raise_for_status()
-          token=r.json()["preview"]
+          payload=r.json()
+          if "preview" not in payload: raise SystemExit(str((payload.get("error"),payload.get("message")))[:600])
+          token=payload["preview"]
           url="https://"+str(uuid.uuid4())+".cloudflarepreviews.com/"
           r=requests.post(url,headers={"X-CF-Token":token,"cf-raw-http":"true","X-CF-HTTP-Method":"GET"},timeout=50)
           print("Preview transport HTTP",r.status_code,flush=True)
