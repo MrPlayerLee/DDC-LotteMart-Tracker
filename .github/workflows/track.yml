@@ -41,7 +41,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A data/status.json data/latest.json
+          # latest.json is created only after a successful lookup.
+          # Stage whichever result files actually exist; preserve last successful result.
+          git add -A -- data/status.json
+          if [ -f data/latest.json ]; then
+            git add -A -- data/latest.json
+          fi
           if ! git diff --cached --quiet; then
             git commit -m "data: update LotteMart lookup status [skip ci]"
             git push
