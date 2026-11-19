@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-11-19T03:03:08+00:00",
+  "source": "https://company.lottemart.com/mobiledowa/",
+  "status": "error",
+  "store": {
+    "area": "경기",
+    "name": "동두천점",
+    "code": null
+  },
+  "queries": [
+    "조니워커"
+  ],
+  "products": [],
+  "targets": [],
+  "error": "/mobiledowa/inc/asp/search_market_list.asp: ConnectTimeout: HTTPSConnectionPool(host='company.lottemart.com', port=443): Max retries exceeded with url: /mobiledowa/inc/asp/search_market_list.asp?p_area=%EA%B2%BD%EA%B8%B0&p_type=1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='company.lottemart.com', port=443) at 0x7de053ae7610>, 'Connection to company.lottemart.com timed out. (connect timeout=12)'))"
+}
