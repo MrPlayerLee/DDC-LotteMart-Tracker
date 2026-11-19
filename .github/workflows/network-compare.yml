@@ -1,0 +1,54 @@
+name: Compare official network path
+on:
+  push:
+    branches: [verify/official-network-path-20261119]
+    paths: [.github/workflows/network-compare.yml]
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt
+      - name: Compare transport and query store 2435
+        run: |
+          python -u - <<'PY'
+          import os
+          import socket
+          import subprocess
+          from urllib.parse import urlsplit
+          import requests
+          import tracker
+          
+          host = urlsplit(tracker.BASE).hostname
+          for url in ("http://" + host, tracker.BASE):
+              proxy = requests.utils.select_proxy(url, requests.utils.get_environ_proxies(url))
+              print(url, "effective proxy:", bool(proxy))
+          print("Proxy variables present:", [k for k in os.environ if k.lower() in {"http_proxy","https_proxy","all_proxy","no_proxy"}])
+          for family in (socket.AF_INET, socket.AF_INET6):
+              try:
+                  print(family.name, sorted({i[4][0] for i in socket.getaddrinfo(host, 443, family, socket.SOCK_STREAM)}))
+              except OSError as exc:
+                  print(family.name, exc)
+          subprocess.run(["ip","route","get","210.93.146.57"])
+          for scheme in ("http","https"):
+              url = scheme + "://" + host + "/mobiledowa/"
+              r = subprocess.run(["curl","--silent","--show-error","--output","/dev/null","--connect-timeout","7","--max-time","16","--write-out","http=%{http_code} tunnel=%{http_connect} dns=%{time_namelookup} tcp=%{time_connect} tls=%{time_appconnect} verify=%{ssl_verify_result}",url],capture_output=True,text=True)
+              print(scheme,r.returncode,r.stdout,flush=True)
+          client = tracker.session()
+          try:
+              html = tracker.request_html(client,"GET",tracker.PAGE_PATH,params={"p_market":"2435","p_schWord":"조니워커 레드","page":1},timeout=8)
+              rows = tracker.parse_products(html)
+              print("Store 2435 direct query:",[(p["name"],p["spec"],p["price_krw"],p["stock_raw"],p["discount_status"]) for p in rows])
+              if not rows: raise SystemExit(2)
+          except tracker.LookupError as exc:
+              print("Direct query failed:", exc)
+              raise SystemExit(1)
+          PY
+      - name: Verify normal tracker on success
+        run: python tracker.py --query '조니워커 레드' --status /tmp/status.json --latest /tmp/latest.json
