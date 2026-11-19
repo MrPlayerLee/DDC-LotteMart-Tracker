@@ -1,0 +1,38 @@
+name: Check free Cloudflare egress
+on:
+  push:
+    branches: [verify/free-cloud-egress-20261119]
+    paths: [.github/workflows/free-egress-check.yml]
+permissions:
+  contents: read
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt
+      - name: Test official store through temporary Cloudflare preview
+        run: |
+          python -u - <<'PY'
+          import json,uuid,requests,tracker
+          worker="import { connect } from 'cloudflare:sockets';\nexport default {async fetch(req){\n const h=\"company.lottemart.com\";\n const d={colo:req.cf?.colo};\n try {\n   const dns=await fetch(\"https://cloudflare-dns.com/dns-query?name=\"+h+\"&type=A\",{headers:{accept:\"application/dns-json\"}});\n   d.dns=(await dns.json()).Answer?.map(x=>x.data);\n } catch {d.dns=\"unavailable\";}\n const url=new URL(\"https://\"+h+\"/mobiledowa/inc/asp/search_product_list.asp\");\n url.search=new URLSearchParams({p_market:\"2435\",p_schWord:\"조니워커 레드\",page:\"1\"}).toString();\n try {\n   const res=await fetch(url,{redirect:\"manual\",signal:AbortSignal.timeout(14000),headers:{\"Accept-Language\":\"ko-KR\"}});\n   d.http=res.status;\n   if(res.ok)d.html=await res.text();\n } catch(e){d.fetch_error=e.name+\" \"+e.message;}\n if(!d.html){for(const mode of [\"off\",\"on\"]){let socket;\n   try{socket=connect({hostname:h,port:443},{secureTransport:mode});\n   await Promise.race([socket.opened,new Promise((_,r)=>setTimeout(()=>r(new Error(\"6s timeout\")),6000))]);d[mode===\"on\"?\"tls\":\"tcp\"]=\"opened\";\n   }catch(e){d[mode===\"on\"?\"tls\":\"tcp\"]=e.message;}finally{if(socket)socket.close().catch(()=>{});}\n }}\n return Response.json(d);\n}};"
+          files={"index.js":("index.js",worker,"application/javascript+module"),"metadata":("blob",json.dumps({"main_module":"index.js","compatibility_date":"2026-01-01"}),"application/json")}
+          r=requests.post("https://workers.cloudflare.com/playground/api/worker",files=files,timeout=25)
+          print("Playground setup HTTP",r.status_code,flush=True)
+          r.raise_for_status()
+          token=r.json()["preview"]
+          url="https://"+str(uuid.uuid4())+".cloudflarepreviews.com/"
+          r=requests.post(url,headers={"X-CF-Token":token,"cf-raw-http":"true","X-CF-HTTP-Method":"GET"},timeout=50)
+          print("Preview transport HTTP",r.status_code,flush=True)
+          r.raise_for_status()
+          d=r.json()
+          html=d.pop("html","")
+          print("Diagnostic",d)
+          rows=tracker.parse_products(html)
+          print("Official results",[(p["name"],p["spec"],p["price_krw"],p["stock_raw"],p["discount_status"]) for p in rows])
+          if not rows: raise SystemExit(1)
+          PY
