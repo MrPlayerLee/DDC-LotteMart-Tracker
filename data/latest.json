@@ -1,0 +1,311 @@
+{
+  "checked_at": "2026-11-19T03:12:33+00:00",
+  "source": "https://company.lottemart.com/mobiledowa/",
+  "status": "ok",
+  "store": {
+    "area": "경기",
+    "name": "동두천점",
+    "code": "2435"
+  },
+  "queries": [
+    "조니워커"
+  ],
+  "products": [
+    {
+      "name": "조니워커 블랙 루비",
+      "spec": "700ML",
+      "volume": "700mL",
+      "price_krw": 64900,
+      "price_raw": "64,900 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "8 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 블루",
+      "spec": "750ML",
+      "volume": "750mL",
+      "price_krw": 340600,
+      "price_raw": "340,600 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "6 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 블루",
+      "spec": "500ML",
+      "volume": "500mL",
+      "price_krw": 234600,
+      "price_raw": "234,600 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "품절",
+      "stock_status": "out_of_stock"
+    },
+    {
+      "name": "조니워커 킹조지",
+      "spec": "750ML",
+      "volume": "750mL",
+      "price_krw": 1489000,
+      "price_raw": "1,489,000 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "1 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 그린",
+      "spec": "700ML",
+      "volume": "700mL",
+      "price_krw": 99800,
+      "price_raw": "99,800 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "6 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 블랙 오징어게임 에디션",
+      "spec": "750ML",
+      "volume": "750mL",
+      "price_krw": 59800,
+      "price_raw": "59,800 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "6 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 더블블랙",
+      "spec": "700ML",
+      "volume": "700mL",
+      "price_krw": 60800,
+      "price_raw": "60,800 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "6 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 레드",
+      "spec": "700ML",
+      "volume": "700mL",
+      "price_krw": 26800,
+      "price_raw": "26,800 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "7 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 블랙",
+      "spec": "500ML",
+      "volume": "500mL",
+      "price_krw": 38500,
+      "price_raw": "38,500 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "품절",
+      "stock_status": "out_of_stock"
+    },
+    {
+      "name": "조니워커 블랙",
+      "spec": "1L",
+      "volume": "1000mL",
+      "price_krw": 79200,
+      "price_raw": "79,200 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "품절",
+      "stock_status": "out_of_stock"
+    },
+    {
+      "name": "조니워커 블루 양띠 에디션",
+      "spec": "750ML",
+      "volume": "750mL",
+      "price_krw": 412800,
+      "price_raw": "412,800 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "4 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 랜덤박스",
+      "spec": "700ML",
+      "volume": "700mL",
+      "price_krw": 47800,
+      "price_raw": "47,800 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "품절",
+      "stock_status": "out_of_stock"
+    },
+    {
+      "name": "디아지오 조니워커 블루 붉은 말 에디션",
+      "spec": "750ML",
+      "volume": "750mL",
+      "price_krw": 389000,
+      "price_raw": "389,000 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "34 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 블랙 셰리 피니쉬",
+      "spec": "700ML",
+      "volume": "700mL",
+      "price_krw": 60800,
+      "price_raw": "60,800 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "품절",
+      "stock_status": "out_of_stock"
+    },
+    {
+      "name": "조니워커 골드리저브",
+      "spec": "750ML",
+      "volume": "750mL",
+      "price_krw": 87300,
+      "price_raw": "87,300 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "6 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 블랙",
+      "spec": "700ML",
+      "volume": "700mL",
+      "price_krw": 54800,
+      "price_raw": "54,800 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "7 개",
+      "stock_status": "in_stock"
+    },
+    {
+      "name": "조니워커 블론드",
+      "spec": "700ML",
+      "volume": "700mL",
+      "price_krw": 28800,
+      "price_raw": "28,800 원",
+      "regular_price_krw": null,
+      "discount_status": "unknown",
+      "stock_raw": "6 개",
+      "stock_status": "in_stock"
+    }
+  ],
+  "targets": [
+    {
+      "name": "조니워커 레드라벨",
+      "status": "found",
+      "products": [
+        {
+          "name": "조니워커 레드",
+          "spec": "700ML",
+          "volume": "700mL",
+          "price_krw": 26800,
+          "price_raw": "26,800 원",
+          "regular_price_krw": null,
+          "discount_status": "unknown",
+          "stock_raw": "7 개",
+          "stock_status": "in_stock"
+        }
+      ]
+    },
+    {
+      "name": "조니워커 블랙라벨",
+      "status": "found",
+      "products": [
+        {
+          "name": "조니워커 블랙 루비",
+          "spec": "700ML",
+          "volume": "700mL",
+          "price_krw": 64900,
+          "price_raw": "64,900 원",
+          "regular_price_krw": null,
+          "discount_status": "unknown",
+          "stock_raw": "8 개",
+          "stock_status": "in_stock"
+        },
+        {
+          "name": "조니워커 블랙 오징어게임 에디션",
+          "spec": "750ML",
+          "volume": "750mL",
+          "price_krw": 59800,
+          "price_raw": "59,800 원",
+          "regular_price_krw": null,
+          "discount_status": "unknown",
+          "stock_raw": "6 개",
+          "stock_status": "in_stock"
+        },
+        {
+          "name": "조니워커 블랙",
+          "spec": "500ML",
+          "volume": "500mL",
+          "price_krw": 38500,
+          "price_raw": "38,500 원",
+          "regular_price_krw": null,
+          "discount_status": "unknown",
+          "stock_raw": "품절",
+          "stock_status": "out_of_stock"
+        },
+        {
+          "name": "조니워커 블랙",
+          "spec": "1L",
+          "volume": "1000mL",
+          "price_krw": 79200,
+          "price_raw": "79,200 원",
+          "regular_price_krw": null,
+          "discount_status": "unknown",
+          "stock_raw": "품절",
+          "stock_status": "out_of_stock"
+        },
+        {
+          "name": "조니워커 블랙 셰리 피니쉬",
+          "spec": "700ML",
+          "volume": "700mL",
+          "price_krw": 60800,
+          "price_raw": "60,800 원",
+          "regular_price_krw": null,
+          "discount_status": "unknown",
+          "stock_raw": "품절",
+          "stock_status": "out_of_stock"
+        },
+        {
+          "name": "조니워커 블랙",
+          "spec": "700ML",
+          "volume": "700mL",
+          "price_krw": 54800,
+          "price_raw": "54,800 원",
+          "regular_price_krw": null,
+          "discount_status": "unknown",
+          "stock_raw": "7 개",
+          "stock_status": "in_stock"
+        }
+      ]
+    },
+    {
+      "name": "조니워커 그린라벨",
+      "status": "found",
+      "products": [
+        {
+          "name": "조니워커 그린",
+          "spec": "700ML",
+          "volume": "700mL",
+          "price_krw": 99800,
+          "price_raw": "99,800 원",
+          "regular_price_krw": null,
+          "discount_status": "unknown",
+          "stock_raw": "6 개",
+          "stock_status": "in_stock"
+        }
+      ]
+    }
+  ],
+  "error": null
+}
