@@ -115,10 +115,10 @@ def stock_status(raw):
 
 def volume(name, spec):
     text = f"{spec} {name}"
-    match = re.search(r"(\d+(?:\.\d+)?)\s*(ml|cl|l|ℓ)(?![a-z])", text, re.IGNORECASE)
+    match = re.search(r"(\d[\d,]*(?:\.\d+)?)\s*(ml|cl|l|ℓ)(?![a-z])", text, re.IGNORECASE)
     if not match:
         return None
-    value, unit = float(match.group(1)), match.group(2).lower()
+    value, unit = float(match.group(1).replace(",", "")), match.group(2).lower()
     ml = value * (1000 if unit in ("l", "ℓ") else 10 if unit == "cl" else 1)
     return f"{int(ml)}mL" if ml.is_integer() else f"{ml:g}mL"
 
@@ -144,7 +144,13 @@ def product_from_popup(popup):
     price = number_from_price(raw_price)
     regular = number_from_price(fields.get("정상가") or fields.get("정가") or "")
     discount = "unknown"
-    if price is not None and regular is not None:
+    rate = None
+    stated_rate = re.fullmatch(r"(\d+(?:\.\d+)?)\s*%", fields.get("할인율", ""))
+    if stated_rate and float(stated_rate.group(1)) <= 100:
+        rate = float(stated_rate.group(1))
+        discount = "discounted" if rate > 0 else "not_discounted"
+    elif price is not None and regular is not None and regular > 0:
+        rate = round(100 * max(0, regular - price) / regular, 2)
         discount = "discounted" if price < regular else "not_discounted"
     return {
         "name": name,
@@ -154,6 +160,7 @@ def product_from_popup(popup):
         "price_raw": raw_price or None,
         "regular_price_krw": regular,
         "discount_status": discount,
+        "discount_rate_pct": rate,
         "stock_raw": raw_stock or None,
         "stock_status": stock_status(raw_stock),
     }
@@ -182,7 +189,11 @@ def total_pages(html):
 
 
 def declared_empty(html):
-    normalized = re.sub(r"\s+", "", BeautifulSoup(html, "html.parser").get_text(" "))
+    soup = BeautifulSoup(html, "html.parser")
+    count = soup.select_one(".result-prod .total-num")
+    if count and re.fullmatch(r"검색결과[:：]?0건", normalize(count.get_text())):
+        return True
+    normalized = normalize(soup.get_text(" "))
     return any(re.sub(r"\s+", "", marker) in normalized for marker in EMPTY_MARKERS)
 
 
@@ -237,7 +248,18 @@ def make_result(config, queries, client=None):
         result["store"]["code"] = code
         products = []
         for query in queries:
-            products.extend(search(client, store["area"], code, query))
+            matches = search(client, store["area"], code, query)
+            if not matches:
+                for target in config.get("targets", []):
+                    registered = target.get("search_name")
+                    names = [target["name"], *target.get("aliases", [])]
+                    if registered and registered != query and any(
+                        normalize(query) == normalize(name) for name in names
+                    ):
+                        candidates = search(client, store["area"], code, registered)
+                        matches = [p for p in candidates if normalize(p["name"]) == normalize(registered)]
+                        break
+            products.extend(matches)
         found = {}
         for product in products:
             key = (normalize(product["name"]), product["spec"], product["price_krw"])
