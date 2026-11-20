@@ -1,0 +1,15 @@
+{
+  "issue_number": 2,
+  "query": "조니워커 블랙라벨",
+  "checked_at": "2026-11-20T01:56:15+00:00",
+  "status": "error",
+  "store": {
+    "area": "경기",
+    "name": "동두천점",
+    "code": null
+  },
+  "products": [],
+  "error": "/mobiledowa/inc/asp/search_market_list.asp: SSLError: HTTPSConnectionPool(host='company.lottemart.com', port=443): Max retries exceeded with url: /mobiledowa/inc/asp/search_market_list.asp?ap_area=%EA%B2%BD%EA%B8%B0&opt_type=1 (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1029)')))",
+  "source": "https://company.lottemart.com/mobiledowa/",
+  "issue_url": "https://github.com/MrPlayerLee/DDC-LotteMart-Tracker/issues/2"
+}
